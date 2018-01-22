@@ -29,7 +29,7 @@ public class GomokuUi extends UI {
     private final int openFour = 5000;
     private final int threatTwo = -15;
     private final int threatThree = -500;
-    private final int threatFour = -2500;
+    private final int threatFour = -4500;
     private final int threatOpenThree = -3500;
     private final int threatOpenFour = -10000;
     private final int threatPossibleFour = -15000;
@@ -467,7 +467,7 @@ public class GomokuUi extends UI {
 
                     if(blank == 1 && threat == 4) {
                         val += threatPossibleFive;
-                    } else if (blank == 3 && threat == 3) {
+                    } else if (blank == 2 && threat == 3) {
                         val += threatPossibleFour;
                     }
 
@@ -514,7 +514,7 @@ public class GomokuUi extends UI {
 
                     if(blank == 1 && threat == 4) {
                         val += threatPossibleFive;
-                    } else if (blank == 3 && threat == 3) {
+                    } else if (blank == 2 && threat == 3) {
                         val += threatPossibleFour;
                     }
 
@@ -563,7 +563,7 @@ public class GomokuUi extends UI {
 
                     if(blank == 1 && threat == 4) {
                         val += threatPossibleFive;
-                    } else if (blank == 3 && threat == 3) {
+                    } else if (blank == 2 && threat == 3) {
                         val += threatPossibleFour;
                     }
 
@@ -615,7 +615,7 @@ public class GomokuUi extends UI {
 
                     if(blank == 1 && threat == 4) {
                         val += threatPossibleFive;
-                    } else if (blank == 3 && threat == 3) {
+                    } else if (blank == 2 && threat == 3) {
                         val += threatPossibleFour;
                     }
 
