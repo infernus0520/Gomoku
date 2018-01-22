@@ -23,15 +23,17 @@ public class GomokuUi extends UI {
     private final int glue = 1;
     private final int two = 10;
     private final int three = 100;
-    private final int four = 500;
+    private final int four = 1500;
     private final int five = 100000;
-    private final int openThree = 1000;
-    private final int openFour = 2500;
+    private final int openThree = 3000;
+    private final int openFour = 5000;
     private final int threatTwo = -15;
-    private final int threatThree = -300;
-    private final int threatFour = -1000;
-    private final int threatOpenThree = -2000;
-    private final int threatOpenFour = -5000;
+    private final int threatThree = -500;
+    private final int threatFour = -2500;
+    private final int threatOpenThree = -3500;
+    private final int threatOpenFour = -10000;
+    private final int threatPossibleFour = -15000;
+    private final int threatPossibleFive = -50000;
 
 
     @Override
@@ -58,19 +60,20 @@ public class GomokuUi extends UI {
                             gridLayout.setEnabled(false);
                             Notification.show("Wygrales!",
                                     Notification.Type.HUMANIZED_MESSAGE);
-                        }
+                        } else {
 
-                        if (checkContinue(gridLayout)) {
-                            //randomComputerMove(gridLayout);
-                            smartComputerMove(gridLayout);
-                            if (chechWin(gridToTab(gridLayout), "O")) {
-                                gridLayout.setEnabled(false);
-                                Notification.show("Przegrales!",
+                            if (checkContinue(gridLayout)) {
+                                //randomComputerMove(gridLayout);
+                                smartComputerMove(gridLayout);
+                                if (chechWin(gridToTab(gridLayout), "O")) {
+                                    gridLayout.setEnabled(false);
+                                    Notification.show("Przegrales!",
+                                            Notification.Type.HUMANIZED_MESSAGE);
+                                }
+                            } else {
+                                Notification.show("Remis!",
                                         Notification.Type.HUMANIZED_MESSAGE);
                             }
-                        } else {
-                            Notification.show("Remis!",
-                                    Notification.Type.HUMANIZED_MESSAGE);
                         }
                     } else {
                         Notification.show("Remis!",
@@ -86,8 +89,13 @@ public class GomokuUi extends UI {
             reset(gridLayout);
         });
 
+        horizontalLayout.setSizeFull();
+        horizontalLayout.setMargin(true);
+        horizontalLayout.setSpacing(true);
         gridLayout.setSpacing(false);
         horizontalLayout.addComponents(gridLayout, resetButton);
+        horizontalLayout.setComponentAlignment(gridLayout,Alignment.MIDDLE_RIGHT);
+        horizontalLayout.setComponentAlignment(resetButton,Alignment.TOP_LEFT);
         setContent(horizontalLayout);
 
 
@@ -212,7 +220,7 @@ public class GomokuUi extends UI {
     void smartComputerMove(GridLayout grid) {
         int bestValX = 0;
         int bestValY = 0;
-        int bestEvaluation = -1;
+        int bestEvaluation = -100000000;
         int currentEvaluation;
 
         for (int g = 0; g < 10; g++) {
@@ -248,10 +256,14 @@ public class GomokuUi extends UI {
                         val += two;
                     }
                     if (tab[i][j] == "O" && tab[i + 1][j] == "O" && tab[i + 2][j] == "O") {
-                        val += three;
+                        if(i-1 >= 0 || tab[i+3][j] != "X") {
+                            val += three;
+                        }
                     }
                     if (tab[i][j] == "O" && tab[i + 1][j] == "O" && tab[i + 2][j] == "O" && tab[i + 3][j] == "O") {
-                        val += four;
+                        if(i-1 >= 0 || tab[i+4][j] != "X") {
+                            val += four;
+                        }
                     }
                     if (tab[i][j] == "O" && tab[i + 1][j] == "O" && tab[i + 2][j] == "O" && tab[i + 3][j] == "O" && tab[i + 4][j] == "O") {
                         val += five;
@@ -287,10 +299,14 @@ public class GomokuUi extends UI {
                         val += two;
                     }
                     if (tab[i][j] == "O" && tab[i][j+1] == "O" && tab[i][j+2] == "O") {
-                        val += three;
+                        if(j-1 >= 0 || tab[i][j+3] != "X") {
+                            val += three;
+                        }
                     }
                     if (tab[i][j] == "O" && tab[i][j+1] == "O" && tab[i][j+2] == "O" && tab[i][j+3] == "O") {
-                        val += four;
+                        if(j-1 >= 0 || tab[i][j+4] != "X") {
+                            val += four;
+                        }
                     }
                     if (tab[i][j] == "O" && tab[i][j+1] == "O" && tab[i][j+2] == "O" && tab[i][j+3] == "O" && tab[i][j+4] == "O") {
                         val += five;
@@ -313,6 +329,7 @@ public class GomokuUi extends UI {
                         }
                     }
 
+
                 }
             }
         }
@@ -325,10 +342,14 @@ public class GomokuUi extends UI {
                         val += two;
                     }
                     if (tab[i][j] == "O" && tab[i+1][j+1] == "O" && tab[i+2][j+2] == "O") {
-                        val += three;
+                        if((j-1 >= 0 && i-1 >=0) || tab[i+3][j+3] != "X") {
+                            val += three;
+                        }
                     }
                     if (tab[i][j] == "O" && tab[i+1][j+1] == "O" && tab[i+2][j+2] == "O" && tab[i+3][j+3] == "O") {
-                        val += four;
+                        if((j-1 >= 0 && i-1 >=0) || tab[i+4][j+4] != "X") {
+                            val += four;
+                        }
                     }
                     if (tab[i][j] == "O" && tab[i+1][j+1] == "O" && tab[i+2][j+2] == "O" && tab[i+3][j+3] == "O" && tab[i+4][j+4] == "O") {
                         val += five;
@@ -366,10 +387,14 @@ public class GomokuUi extends UI {
                         val += two;
                     }
                     if (tab[i][j] == "O" && tab[i+1][j-1] == "O" && tab[i+2][j-2] == "O") {
-                        val += three;
+                        if((j+1 < 10 && i-1 >=0) || tab[i+3][j-3] != "X") {
+                            val += three;
+                        }
                     }
                     if (tab[i][j] == "O" && tab[i+1][j-1] == "O" && tab[i+2][j-2] == "O" && tab[i+3][j-3] == "O") {
-                        val += four;
+                        if((j+1 < 10 && i-1 >=0) || tab[i+4][j-4] != "X") {
+                            val += four;
+                        }
                     }
                     if (tab[i][j] == "O" && tab[i+1][j-1] == "O" && tab[i+2][j-2] == "O" && tab[i+3][j-3] == "O" && tab[i+4][j-4] == "O") {
                         val += five;
@@ -397,7 +422,212 @@ public class GomokuUi extends UI {
         }
 
 
+        // SPRAWDZENIE ZAGROZEN
+
+        //Wartosci poziome
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if(i+4 < 10) {
+
+                    //podstawowe uklady
+                    if (tab[i][j] == "X" && tab[i + 1][j] == "X") {
+                        val += threatTwo;
+                    }
+                    if (tab[i][j] == "X" && tab[i + 1][j] == "X" && tab[i + 2][j] == "X") {
+                        val += threatThree;
+                    }
+                    if (tab[i][j] == "X" && tab[i + 1][j] == "X" && tab[i + 2][j] == "X" && tab[i + 3][j] == "X") {
+                        val += threatFour;
+                    }
+
+
+
+                    //open3
+                    if (tab[i][j] == "" && tab[i + 1][j] == "X" && tab[i + 2][j] == "X" && tab[i + 3][j] == "X" && tab[i + 4][j] == "") {
+                        val += threatOpenThree;
+                    }
+
+                    //open4
+                    if(i+5 < 10) {
+                        if (tab[i][j] == "" && tab[i + 1][j] == "X" && tab[i + 2][j] == "X" && tab[i + 3][j] == "X" && tab[i + 4][j] == "X" && tab[i + 5][j] == "") {
+                            val += threatOpenFour;
+                        }
+                    }
+
+                    int blank = 0;
+                    int threat = 0;
+
+                    for(int z = 0;z<5;z++){
+                        if(tab[i+z][j] == "X") {
+                            threat++;
+                        } else if (tab[i+z][j] == "") {
+                            blank++;
+                        }
+                    }
+
+                    if(blank == 1 && threat == 4) {
+                        val += threatPossibleFive;
+                    } else if (blank == 3 && threat == 3) {
+                        val += threatPossibleFour;
+                    }
+
+                }
+            }
+        }
+
+        //Wartosci Pionowe
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if(j+4 < 10) {
+                    if (tab[i][j] == "X" && tab[i][j+1] == "X") {
+                        val += threatTwo;
+                    }
+                    if (tab[i][j] == "X" && tab[i][j+1] == "X" && tab[i][j+2] == "X") {
+                        val += threatThree;
+                    }
+                    if (tab[i][j] == "X" && tab[i][j+1] == "X" && tab[i][j+2] == "X" && tab[i][j+3] == "X") {
+                        val += threatFour;
+                    }
+
+                    //open3
+                    if (tab[i][j] == "" && tab[i][j+1] == "X" && tab[i][j+2] == "X" && tab[i][j+3] == "X" && tab[i][j+4] == "") {
+                        val += threatOpenThree;
+                    }
+
+                    //open4
+                    if(j+5 < 10) {
+                        if (tab[i][j] == "" && tab[i][j+1] == "X" && tab[i][j+2] == "X" && tab[i][j+3] == "X" && tab[i][j+4] == "X" && tab[i][j+5] == "") {
+                            val += threatOpenFour;
+                        }
+                    }
+
+                    int blank = 0;
+                    int threat = 0;
+
+                    for(int z = 0;z<5;z++){
+                        if(tab[i][j+z] == "X") {
+                            threat++;
+                        } else if (tab[i][j+z] == "") {
+                            blank++;
+                        }
+                    }
+
+                    if(blank == 1 && threat == 4) {
+                        val += threatPossibleFive;
+                    } else if (blank == 3 && threat == 3) {
+                        val += threatPossibleFour;
+                    }
+
+
+                }
+            }
+        }
+
+        //Skosy1
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if(j + 4 < 10 && i + 4 < 10) {
+                    if (tab[i][j] == "X" && tab[i+1][j+1] == "X") {
+                        val += threatTwo;
+                    }
+                    if (tab[i][j] == "X" && tab[i+1][j+1] == "X" && tab[i+2][j+2] == "X") {
+                        val += threatThree;
+                    }
+                    if (tab[i][j] == "X" && tab[i+1][j+1] == "X" && tab[i+2][j+2] == "X" && tab[i+3][j+3] == "X") {
+                        val += threatFour;
+                    }
+
+
+                    //open3
+                    if (tab[i][j] == "" && tab[i+1][j+1] == "X" && tab[i+2][j+2] == "X" && tab[i+3][j+3] == "X" && tab[i+4][j+4] == "") {
+                        val += threatOpenThree;
+                    }
+
+                    //open4
+                    if(j+5 < 10 && i+5 < 10) {
+                        if (tab[i][j] == "" && tab[i+1][j+1] == "X" && tab[i+2][j+2] == "X" && tab[i+3][j+3] == "X" && tab[i+4][j+4] == "X" && tab[i+5][j+5] == "") {
+                            val += threatOpenFour;
+                        }
+                    }
+
+                    int blank = 0;
+                    int threat = 0;
+
+                    for(int z = 0;z<5;z++){
+                        if(tab[i+z][j+z] == "X") {
+                            threat++;
+                        } else if (tab[i+z][j+z] == "") {
+                            blank++;
+                        }
+                    }
+
+                    if(blank == 1 && threat == 4) {
+                        val += threatPossibleFive;
+                    } else if (blank == 3 && threat == 3) {
+                        val += threatPossibleFour;
+                    }
+
+
+                }
+            }
+        }
+
+
+
+
+        //Skosy2
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if(i + 4 < 10 && j - 4 >= 0) {
+                    if (tab[i][j] == "X" && tab[i+1][j-1] == "X") {
+                        val += threatTwo;
+                    }
+                    if (tab[i][j] == "X" && tab[i+1][j-1] == "X" && tab[i+2][j-2] == "X") {
+                        val += threatThree;
+                    }
+                    if (tab[i][j] == "X" && tab[i+1][j-1] == "X" && tab[i+2][j-2] == "X" && tab[i+3][j-3] == "X") {
+                        val += threatFour;
+                    }
+
+
+                    //open3
+                    if (tab[i][j] == "" && tab[i+1][j-1] == "X" && tab[i+2][j-2] == "X" && tab[i+3][j-3] == "X" && tab[i+4][j-4] == "") {
+                        val += threatOpenThree;
+                    }
+
+                    //open4
+                    if(i+5 < 10 && j-5 >= 0) {
+                        if (tab[i][j] == "" && tab[i+1][j-1] == "X" && tab[i+2][j-2] == "X" && tab[i+3][j-3] == "X" && tab[i+4][j-4] == "X" && tab[i+5][j-5] == "") {
+                            val += threatOpenFour;
+                        }
+                    }
+
+                    int blank = 0;
+                    int threat = 0;
+
+                    for(int z = 0;z<5;z++){
+                        if(tab[i+z][j-z] == "X") {
+                            threat++;
+                        } else if (tab[i+z][j-z] == "") {
+                            blank++;
+                        }
+                    }
+
+                    if(blank == 1 && threat == 4) {
+                        val += threatPossibleFive;
+                    } else if (blank == 3 && threat == 3) {
+                        val += threatPossibleFour;
+                    }
+
+                }
+            }
+        }
+
+
 
         return val;
     }
+
+
 }
+
