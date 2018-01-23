@@ -26,13 +26,13 @@ public class GomokuUi extends UI {
     private final int four = 1500;
     private final int five = 100000;
     private final int openThree = 3000;
-    private final int openFour = 5000;
+    private final int openFour = 12000;
     private final int threatTwo = -15;
     private final int threatThree = -500;
     private final int threatFour = -4500;
     private final int threatOpenThree = -3500;
     private final int threatOpenFour = -10000;
-    private final int threatPossibleFour = -15000;
+    private final int threatPossibleFour = -6000;
     private final int threatPossibleFive = -50000;
 
 
